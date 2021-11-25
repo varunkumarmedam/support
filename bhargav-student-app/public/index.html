@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="mydiv"></div>
+
+    <script type="text/babel">
+        var studentsList = [];
+        function Hello() {
+            return <h1>Hello World!</h1>;
+        }
+        function StudentsList() {
+            var li = "";
+            for (let student in studentsList) {
+                li += studentsList[student].name
+            }
+            return <p>{li}</p>
+        }
+        (function () {
+            fetch('http://localhost:3000/getstudents', { method: "GET", headers: { 'Content-Type': 'application/json' } })
+                .then((results) => results.json().then((data) => {
+                    studentsList = data
+                    ReactDOM.render(<StudentsList />, document.getElementById('mydiv'));
+                }));
+        })();
+        ReactDOM.render(<Hello />, document.getElementById('mydiv'));
+    </script>
+
+</body>
+
+</html>
